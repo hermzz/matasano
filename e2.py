@@ -19,4 +19,15 @@
 
 
 orig = bytes.fromhex('1c0111001f010100061a024b53535009181c')
-print(orig)
+mask = bytes.fromhex('686974207468652062756c6c277320657965')
+check = bytes.fromhex('746865206b696420646f6e277420706c6179')
+
+i=0
+result = bytearray(len(orig))
+while i<len(orig):
+	result[i] = orig[i] ^ mask[i]
+	i += 1
+
+print(check)
+print(result)
+print(check == result)
