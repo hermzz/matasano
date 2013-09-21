@@ -17,6 +17,7 @@ def range_check(s):
     return True
 
 character_frequency = {
+    ' ': 13.000,
     'e': 12.702,
     't': 9.056,
     'a': 8.167,
