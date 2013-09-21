@@ -52,14 +52,18 @@ def frequency_check(s):
     totals = {}
     length = len(s)
 
-    for i in s:
-        if not i in totals:
-            totals[chr(i)] = 0
+    for i in s.lower():
+        char = chr(i)
+        if char not in totals:
+            totals[char] = 0
 
-        totals[chr(i)] += 1
+        totals[char] += 1
 
     for (k,v) in totals.items():
-        totals[k] = v / length
+        totals[k] = (v / length) * 100
+
+        if k not in character_frequency:
+            character_frequency[k] = 0
 
     diff = 0
     for (k,v) in character_frequency.items():
