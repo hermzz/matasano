@@ -1,12 +1,12 @@
 # XOR a byte array with a mask
 def do_mask(orig, mask):
-	i=0
-	result = bytearray(len(orig))
-	while i<len(orig):
-		result[i] = orig[i] ^ mask[i]
-		i += 1
+    i=0
+    result = bytearray(len(orig))
+    while i<len(orig):
+        result[i] = orig[i] ^ mask[i]
+        i += 1
 
-	return result
+    return result
 
 # Check if a bytearray only contains printable characters
 def range_check(s):
@@ -68,3 +68,16 @@ def frequency_check(s):
         diff += abs(totals[k] - character_frequency[k])
 
     return diff
+
+def find_best_xor_match(orig):
+    results = []
+    for i in list(range(0,256)):
+        seed = bytearray(b'\x00')
+        seed[0] = i
+        result = do_mask(orig, seed * len(orig))
+
+        if range_check(result):
+            diff = frequency_check(result)
+            results.append({'diff': diff, 'mask': i, 'result': result})
+
+    return sorted(results, key=lambda s: s['diff'])[0]

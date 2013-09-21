@@ -15,19 +15,7 @@
 #
 # Tune your algorithm until this works.
 
-from lib import do_mask, range_check, frequency_check
+from lib import find_best_xor_match
 
-orig = bytes.fromhex('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
-
-results = []
-for i in list(range(0,256)):
-    seed = bytearray(b'\x00')
-    seed[0] = i
-    result = do_mask(orig, seed * len(orig))
-
-    if range_check(result):
-        diff = frequency_check(result)
-        results.append({'diff': diff, 'mask': i, 'result': result})
-
-s = sorted(results, key=lambda s: s['diff'])
-print("mask %s: %s; diff %0.4f" % (s[0]['mask'], s[0]['result'], s[0]['diff'])) 
+match = find_best_xor_match(bytes.fromhex('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'))
+print("mask %s: %s; diff %0.4f" % (match['mask'], match['result'], match['diff']))
