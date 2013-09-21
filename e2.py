@@ -17,16 +17,13 @@
 #
 #  746865206b696420646f6e277420706c6179
 
+from lib import do_mask
 
 orig = bytes.fromhex('1c0111001f010100061a024b53535009181c')
 mask = bytes.fromhex('686974207468652062756c6c277320657965')
 check = bytes.fromhex('746865206b696420646f6e277420706c6179')
 
-i=0
-result = bytearray(len(orig))
-while i<len(orig):
-	result[i] = orig[i] ^ mask[i]
-	i += 1
+result = do_mask(orig, mask)
 
 print(check)
 print(result)
