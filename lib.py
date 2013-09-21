@@ -69,7 +69,9 @@ def frequency_check(s):
 
     return diff
 
-def find_best_xor_match(orig):
+# XORs a string with all the possible values and returns
+# the top most english results
+def find_best_xor_match(orig, num=1):
     results = []
     for i in list(range(0,256)):
         seed = bytearray(b'\x00')
@@ -78,6 +80,9 @@ def find_best_xor_match(orig):
 
         if range_check(result):
             diff = frequency_check(result)
-            results.append({'diff': diff, 'mask': i, 'result': result})
+            results.append({'diff': diff, 'mask': seed, 'result': result})
 
-    return sorted(results, key=lambda s: s['diff'])[0]
+    if not results:
+        return []
+
+    return sorted(results, key=lambda s: s['diff'])[0:num]
