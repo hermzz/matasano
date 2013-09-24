@@ -11,7 +11,7 @@ def do_mask(orig, mask):
 # Check if a bytearray only contains printable characters
 def range_check(s):
     for i in s:
-        if i < 32 or i > 126:
+        if (i < 32 and (i != 9 and i != 10 and i != 13)) or i > 126:
             return False
 
     return True
