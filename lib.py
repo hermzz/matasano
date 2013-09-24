@@ -46,21 +46,17 @@ character_frequency = {
     'z': 0.074
 }
 
+from collections import Counter
+
 # Return the distance of a string to standard english character frequencies
 # The lower the number the more english the text is
 def frequency_check(s):
     totals = {}
     length = len(s)
 
-    for i in s.lower():
-        char = chr(i)
-        if char not in totals:
-            totals[char] = 0
-
-        totals[char] += 1
-
-    for (k,v) in totals.items():
-        totals[k] = (v / length) * 100
+    totals = {}
+    for (k,v) in Counter(s.lower()).items():
+        totals[chr(k)] = (v / length) * 100
 
         if k not in character_frequency:
             character_frequency[k] = 0
@@ -75,10 +71,11 @@ def frequency_check(s):
     return diff
 
 # XORs a string with all the possible values and returns
-# the top most english results
+# the top most english result
+byte_range = list(range(0,256))
 def find_best_xor_match(orig, num=1):
     results = []
-    for i in list(range(0,256)):
+    for i in byte_range:
         seed = bytearray(b'\x00')
         seed[0] = i
         result = do_mask(orig, seed * len(orig))

@@ -11,9 +11,7 @@
 
 from lib import find_best_xor_match
 
-matches = []
-for line in open('e4.txt', 'r'):
-    matches.extend(find_best_xor_match(bytes.fromhex(line.rstrip()), 1))
+matches = [item for sublist in [find_best_xor_match(bytes.fromhex(line.rstrip()), 1) for line in open('e4.txt', 'r')] for item in sublist]
 
 print("Found %d total possible matches" % len(matches))
 
