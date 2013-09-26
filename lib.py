@@ -88,3 +88,17 @@ def find_best_xor_match(orig, num=1):
         return []
 
     return sorted(results, key=lambda s: s['diff'])[0:num]
+
+def key_encode(orig, key):
+    ol = len(orig)
+    kl = len(key)
+    e = bytearray()
+
+    i = 0
+    while i <= ol:
+        chunk = orig[i:i+3]
+        e += do_mask(chunk, key)
+
+        i += kl
+
+    return e
