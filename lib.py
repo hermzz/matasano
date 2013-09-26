@@ -1,12 +1,6 @@
 # XOR a byte array with a mask
 def do_mask(orig, mask):
-    i=0
-    result = bytearray(len(orig))
-    while i<len(orig):
-        result[i] = orig[i] ^ mask[i]
-        i += 1
-
-    return result
+    return bytearray([orig[i] ^ mask[i] for i in range(0, len(orig))])
 
 # Check if a bytearray only contains printable characters
 def range_check(s):
@@ -72,7 +66,7 @@ def frequency_check(s):
 
 # XORs a string with all the possible values and returns
 # the top most english result
-byte_range = list(range(0,256))
+byte_range = list(range(0, 256))
 def find_best_xor_match(orig, num=1):
     results = []
     for i in byte_range:
