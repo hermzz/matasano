@@ -96,3 +96,8 @@ def key_encode(orig, key):
         i += kl
 
     return e
+
+
+
+def hamming(a, b):
+    return sum([sum([int(j) for j in str(bin(a[i] ^ b[i]))[2:]]) for i in range(0,len(a))])

@@ -9,10 +9,7 @@
 # is base64-encoded repeating-key XOR. Break it.
 
 import base64, math
-from lib import find_best_xor_match, key_encode
-
-def hamming(a, b):
-	return sum([sum([int(j) for j in str(bin(a[i] ^ b[i]))[2:]]) for i in range(0,len(a))])
+from lib import find_best_xor_match, key_encode, hamming
 
 buff = base64.b64decode(''.join([line.rstrip() for line in open('e6.txt', 'r')]))
 
