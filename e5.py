@@ -22,5 +22,5 @@ expected = b"0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a262263242
 orig = bytearray("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal", "ascii")
 key = bytearray("ICE", "ascii")
 
-encoded = binascii.hexlify(key_encode(orig, key))
-print(encoded == expected)
+encoded = key_encode(orig, key)
+print(binascii.hexlify(encoded) == expected)
