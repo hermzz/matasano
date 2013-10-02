@@ -90,7 +90,7 @@ def key_encode(orig, key):
 
     i = 0
     while i <= ol:
-        chunk = orig[i:i+3]
+        chunk = orig[i:i+kl]
         e += do_mask(chunk, key)
 
         i += kl
