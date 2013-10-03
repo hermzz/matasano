@@ -16,7 +16,7 @@
 #  Always operate on raw bytes, never on encoded strings. Only use hex
 #  and base64 for pretty-printing.
 
-import base64
+import base64, binascii
 
 # Convert hex to bytes
 string = bytes.fromhex('49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d')
@@ -31,8 +31,4 @@ b64decoded = base64.b64decode(b64encoded)
 print(b64decoded)
 
 # Convert bytes into hex
-h = ''
-for i in b64decoded:
-	h += hex(i)[2:]
-
-print(h)
+print(binascii.hexlify(b64decoded))
