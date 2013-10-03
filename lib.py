@@ -3,6 +3,7 @@ def do_mask(orig, mask):
     return bytearray([orig[i] ^ mask[i] for i in range(0, len(orig))])
 
 # Check if a bytearray only contains printable characters
+# Range 32 to 126 are printable chars, 9, 10, and 13 are \n \r \t
 def range_check(s):
     for i in s:
         if (i < 32 and (i != 9 and i != 10 and i != 13)) or i > 126:
@@ -64,40 +65,39 @@ def frequency_check(s):
 
     return diff
 
+class XOR_Match:
+    def __init__(self, diff, mask, result):
+        self.diff = diff
+        self.mask = mask
+        self.result = result
+
+    def __str__(self):
+        return "mask %s: %s; diff %0.4f" % (self.mask, self.result, self.diff)
+
 # XORs a string with all the possible values and returns
 # the top most english result
 byte_range = list(range(0, 256))
 def find_best_xor_match(orig, num=1):
+    l_orig = len(orig)
     results = []
     for i in byte_range:
-        seed = bytearray(b'\x00')
-        seed[0] = i
-        result = do_mask(orig, seed * len(orig))
+        result = do_mask(orig, bytearray([i] * l_orig))
 
         if range_check(result):
             diff = frequency_check(result)
-            results.append({'diff': diff, 'mask': seed, 'result': result})
+            results.append(XOR_Match(diff, bytearray([i]), result))
 
     if not results:
         return []
 
-    return sorted(results, key=lambda s: s['diff'])[0:num]
+    return sorted(results, key=lambda s: s.diff)[0:num]
 
+import math
 def key_encode(orig, key):
-    ol = len(orig)
     kl = len(key)
-    e = bytearray()
+    list_range = int(math.ceil(len(orig) / kl))
 
-    i = 0
-    while i <= ol:
-        chunk = orig[i:i+kl]
-        e += do_mask(chunk, key)
-
-        i += kl
-
-    return e
-
-
+    return b''.join([do_mask(orig[i * kl:(i + 1) * kl], key) for i in list(range(0, list_range))])
 
 def hamming(a, b):
     return sum([sum([int(j) for j in str(bin(a[i] ^ b[i]))[2:]]) for i in range(0,len(a))])

@@ -15,7 +15,7 @@ matches = [item for sublist in [find_best_xor_match(bytes.fromhex(line.rstrip())
 
 print("Found %d total possible matches" % len(matches))
 
-sorted_matches = sorted(matches, key=lambda s: s['diff'])
+sorted_matches = sorted(matches, key=lambda s: s.diff)
 
 for match in sorted_matches[0:40]:
-	print("mask %s: %s; diff %0.4f" % (match['mask'], match['result'], match['diff']))
+	print(match)

@@ -19,7 +19,7 @@ for (line, buff) in enumerate(buffers):
 	lbuff = int(len(buff) / 16)
 	for i in list(range(0, lbuff)):
 		for j in list(range(i+1, lbuff)):
-			if buff[i*16:(i+1)*16] == buff[j*16:(j+1)*16]:
+			if buff[i * 16:(i + 1) * 16] == buff[j * 16:(j + 1) * 16]:
 				if line not in totals:
 					totals[line] = 0
 				totals[line] += 1
