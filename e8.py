@@ -15,6 +15,8 @@
 buffers = [bytes.fromhex(line.rstrip()) for line in open('e8.txt', 'r')]
 
 totals = {}
+
+# Go through each line, split it into 16 byte chunks and look for repetitions
 for (line, buff) in enumerate(buffers):
 	lbuff = int(len(buff) / 16)
 	for i in list(range(0, lbuff)):

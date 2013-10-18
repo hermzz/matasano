@@ -1,6 +1,6 @@
 # XOR a byte array with a mask
 def do_mask(orig, mask):
-    return bytearray([orig[i] ^ mask[i] for i in range(0, len(orig))])
+    return bytearray([a ^ b for a,b in zip(orig, mask)])
 
 # Check if a bytearray only contains printable characters
 # Range 32 to 126 are printable chars, 9, 10, and 13 are \n \r \t
@@ -11,6 +11,7 @@ def range_check(s):
 
     return True
 
+# english character frequencies
 character_frequency = {
     ' ': 13.000,
     'e': 12.702,
@@ -75,7 +76,7 @@ class XOR_Match:
         return "mask %s: %s; diff %0.4f" % (self.mask, self.result, self.diff)
 
 # XORs a string with all the possible values and returns
-# the top most english result
+# the top most english results
 byte_range = list(range(0, 256))
 def find_best_xor_match(orig, num=1):
     l_orig = len(orig)
@@ -84,8 +85,7 @@ def find_best_xor_match(orig, num=1):
         result = do_mask(orig, bytearray([i] * l_orig))
 
         if range_check(result):
-            diff = frequency_check(result)
-            results.append(XOR_Match(diff, bytearray([i]), result))
+            results.append(XOR_Match(frequency_check(result), bytearray([i]), result))
 
     if not results:
         return []
@@ -100,4 +100,4 @@ def key_encode(orig, key):
     return b''.join([do_mask(orig[i * kl:(i + 1) * kl], key) for i in list(range(0, list_range))])
 
 def hamming(a, b):
-    return sum([sum([int(j) for j in str(bin(a[i] ^ b[i]))[2:]]) for i in range(0,len(a))])
+    return sum([sum([int(j) for j in str(bin(c ^ d))[2:]]) for c,d in zip(a,b)])

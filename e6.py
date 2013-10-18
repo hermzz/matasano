@@ -37,7 +37,7 @@ blocks = [bytearray([buff[(key_size * j) + i] for j in range(0, math.ceil((len_b
 key = bytearray()
 for i in list(range(0, len(blocks))):
 	res = find_best_xor_match(blocks[i], 1)
-	key += res[0]['mask']
+	key += res[0].mask
 
 print("Key: %s" % key)
 print(key_encode(buff, key))
