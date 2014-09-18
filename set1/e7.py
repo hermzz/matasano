@@ -22,11 +22,12 @@ import base64
 from Crypto.Cipher import AES
 from Crypto import Random
 
-buff = base64.b64decode(''.join([line.rstrip() for line in open('e7.txt', 'r')]))
+def run():
+    buff = base64.b64decode(''.join([line.rstrip() for line in open('set1/e7.txt', 'r')]))
 
-key = b'YELLOW SUBMARINE'
-iv = Random.new().read(AES.block_size)
-cipher = AES.new(key, AES.MODE_ECB, iv)
-msg = cipher.decrypt(buff)
+    key = b'YELLOW SUBMARINE'
+    iv = Random.new().read(AES.block_size)
+    cipher = AES.new(key, AES.MODE_ECB, iv)
+    msg = cipher.decrypt(buff)
 
-print(msg)
+    print(msg)

@@ -101,3 +101,7 @@ def key_encode(orig, key):
 
 def hamming(a, b):
     return sum([sum([int(j) for j in str(bin(c ^ d))[2:]]) for c,d in zip(a,b)])
+
+def pad(text, length):
+    diff = length - len(text)
+    return bytearray(text, 'ascii') + bytearray([diff] * diff)

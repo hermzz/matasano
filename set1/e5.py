@@ -17,10 +17,11 @@
 from lib import key_encode
 import binascii
 
-expected = b"0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
+def run():
+    expected = b"0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
 
-orig = bytearray("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal", "ascii")
-key = bytearray("ICE", "ascii")
+    orig = bytearray("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal", "ascii")
+    key = bytearray("ICE", "ascii")
 
-encoded = key_encode(orig, key)
-print(binascii.hexlify(encoded) == expected)
+    encoded = key_encode(orig, key)
+    print(binascii.hexlify(encoded) == expected)

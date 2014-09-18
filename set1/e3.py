@@ -17,5 +17,6 @@
 
 from lib import find_best_xor_match
 
-match = find_best_xor_match(bytes.fromhex('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'))[0]
-print(match)
+def run():
+    match = find_best_xor_match(bytes.fromhex('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736'))[0]
+    print(match)
