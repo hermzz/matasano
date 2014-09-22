@@ -105,3 +105,12 @@ def hamming(a, b):
 def pad(text, length):
     diff = length - len(text)
     return bytearray(text, 'ascii') + bytearray([diff] * diff)
+
+from Crypto.Cipher import AES
+def ecb_encrypt(key, buff, iv):
+    cipher = AES.new(key, AES.MODE_ECB, iv)
+    return cipher.encrypt(buff)
+
+def ecb_decrypt(key, buff, iv):
+    cipher = AES.new(key, AES.MODE_ECB, iv)
+    return cipher.decrypt(buff)

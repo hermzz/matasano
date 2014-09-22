@@ -19,15 +19,10 @@
 # Use OpenSSL::Cipher and give it AES-128-ECB as the cipher.
 
 import base64
-from Crypto.Cipher import AES
 from Crypto import Random
+from Crypto.Cipher import AES
+from lib import ecb_decrypt
 
 def run():
     buff = base64.b64decode(''.join([line.rstrip() for line in open('set1/e7.txt', 'r')]))
-
-    key = b'YELLOW SUBMARINE'
-    iv = Random.new().read(AES.block_size)
-    cipher = AES.new(key, AES.MODE_ECB, iv)
-    msg = cipher.decrypt(buff)
-
-    print(msg)
+    print(ecb_decrypt(b'YELLOW SUBMARINE', buff, Random.new().read(AES.block_size)))
