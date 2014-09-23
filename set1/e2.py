@@ -17,14 +17,14 @@
 #
 #  746865206b696420646f6e277420706c6179
 
-from lib import do_mask
+from lib import xor
 
 def run():
     orig = bytes.fromhex('1c0111001f010100061a024b53535009181c')
     mask = bytes.fromhex('686974207468652062756c6c277320657965')
     check = bytes.fromhex('746865206b696420646f6e277420706c6179')
 
-    result = do_mask(orig, mask)
+    result = xor(orig, mask)
 
     print(check)
     print(result)

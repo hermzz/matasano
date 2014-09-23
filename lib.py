@@ -1,5 +1,5 @@
 # XOR a byte array with a mask
-def do_mask(orig, mask):
+def xor(orig, mask):
     return bytearray([a ^ b for a,b in zip(orig, mask)])
 
 # Check if a bytearray only contains printable characters
@@ -82,7 +82,7 @@ def find_best_xor_match(orig, num=1):
     l_orig = len(orig)
     results = []
     for i in byte_range:
-        result = do_mask(orig, bytearray([i] * l_orig))
+        result = xor(orig, bytearray([i] * l_orig))
 
         if range_check(result):
             results.append(XOR_Match(frequency_check(result), bytearray([i]), result))
@@ -97,7 +97,7 @@ def key_encode(orig, key):
     kl = len(key)
     list_range = int(math.ceil(len(orig) / kl))
 
-    return b''.join([do_mask(orig[i * kl:(i + 1) * kl], key) for i in list(range(0, list_range))])
+    return b''.join([xor(orig[i * kl:(i + 1) * kl], key) for i in list(range(0, list_range))])
 
 def hamming(a, b):
     return sum([sum([int(j) for j in str(bin(c ^ d))[2:]]) for c,d in zip(a,b)])
@@ -137,7 +137,7 @@ def cbc_decrypt(key, buff, iv):
         chunk = buff[i * AES.block_size:(i + 1) * AES.block_size]
 
         # Decrypt the chunk and XOR it against the IV/encrypted chunk from last round
-        decoded = do_mask(ecb_decrypt(key, chunk, iv), iv)
+        decoded = xor(ecb_decrypt(key, chunk, iv), iv)
 
         result = result + decoded
 
