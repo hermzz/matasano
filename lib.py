@@ -131,13 +131,17 @@ def ecb_decrypt(key, buff, iv):
 
 def cbc_decrypt(key, buff, iv):
     result = bytearray();
-    list_range = int(math.ceil(len(buff) / AES.block_size))
-    for i in list(range(0, list_range)):
-        cipher = buff[i * AES.block_size:(i + 1) * AES.block_size]
-        decoded = do_mask(ecb_decrypt(key, cipher, iv), iv)
+    number_of_chunks = int(math.ceil(len(buff) / AES.block_size))
+
+    for i in range(0, number_of_chunks):
+        chunk = buff[i * AES.block_size:(i + 1) * AES.block_size]
+
+        # Decrypt the chunk and XOR it against the IV/encrypted chunk from last round
+        decoded = do_mask(ecb_decrypt(key, chunk, iv), iv)
 
         result = result + decoded
 
-        iv = cipher
+        # Use the still encrypted chunk as the IV for the next round
+        iv = chunk
 
     return unpad(result)
