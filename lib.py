@@ -106,6 +106,20 @@ def pad(text, length):
     diff = length - len(text)
     return bytearray(text, 'ascii') + bytearray([diff] * diff)
 
+def unpad(text):
+    last_char = text[-1:][0]
+    text_length = len(text)
+
+    padded = True
+    for i in range(0, last_char):
+        if text[text_length -1 - i] != last_char:
+            padded = False
+
+    if padded:
+        text = text[:-last_char]
+
+    return text
+
 from Crypto.Cipher import AES
 def ecb_encrypt(key, buff, iv):
     cipher = AES.new(key, AES.MODE_ECB, iv)
@@ -114,3 +128,16 @@ def ecb_encrypt(key, buff, iv):
 def ecb_decrypt(key, buff, iv):
     cipher = AES.new(key, AES.MODE_ECB, iv)
     return cipher.decrypt(buff)
+
+def cbc_decrypt(key, buff, iv):
+    result = bytearray();
+    list_range = int(math.ceil(len(buff) / AES.block_size))
+    for i in list(range(0, list_range)):
+        cipher = buff[i * AES.block_size:(i + 1) * AES.block_size]
+        decoded = do_mask(ecb_decrypt(key, cipher, iv), iv)
+
+        result = result + decoded
+
+        iv = cipher
+
+    return unpad(result)

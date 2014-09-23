@@ -20,5 +20,14 @@
 # The file here is intelligible (somewhat) when CBC decrypted against
 # "YELLOW SUBMARINE" with an IV of all ASCII 0 (\x00\x00\x00 &c)
 
+import base64
+from lib import cbc_decrypt
+
 def run():
-	pass
+    key = b'YELLOW SUBMARINE'
+    buff = base64.b64decode(''.join([line.rstrip() for line in open('set2/e2.txt', 'r')]))
+    iv = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+    decoded = cbc_decrypt(key, buff, iv)
+
+    print(decoded.decode('ascii'))
