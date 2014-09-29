@@ -21,7 +21,7 @@
 from lib import pad
 
 def run():
-	text = "YELLOW SUBMARINE"
+	text = bytearray("YELLOW SUBMARINE", 'ascii')
 	length = 20
 
 	print(pad(text, 20))

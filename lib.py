@@ -104,7 +104,7 @@ def hamming(a, b):
 
 def pad(text, length):
     diff = length - len(text)
-    return bytearray(text, 'ascii') + bytearray([diff] * diff)
+    return bytearray(text) + bytearray([diff] * diff)
 
 def unpad(text):
     last_char = text[-1:][0]
@@ -145,3 +145,24 @@ def cbc_decrypt(key, buff, iv):
         iv = chunk
 
     return unpad(result)
+
+def cbc_encrypt(key, buff, iv):
+    result = bytearray();
+
+    # Must pad input buffer to a multiple of AES.block_size first
+    buff = pad(buff, len(buff) +(AES.block_size - (len(buff) % AES.block_size)))
+
+    number_of_chunks = int(math.ceil(len(buff) / AES.block_size))
+
+    for i in range(0, number_of_chunks):
+        chunk = buff[i * AES.block_size:(i + 1) * AES.block_size]
+
+        # XOR iv and chunk and encrypt
+        encoded = ecb_encrypt(key, bytes(xor(chunk, iv)), iv)
+
+        result = result + encoded
+
+        # Use the encoded chunk as IV for next round
+        iv = encoded
+
+    return result
