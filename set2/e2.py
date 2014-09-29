@@ -21,7 +21,7 @@
 # "YELLOW SUBMARINE" with an IV of all ASCII 0 (\x00\x00\x00 &c)
 
 import base64
-from lib import cbc_decrypt
+from lib import cbc_decrypt, cbc_encrypt
 
 def run():
     key = b'YELLOW SUBMARINE'

@@ -129,40 +129,40 @@ def ecb_decrypt(key, buff, iv):
     cipher = AES.new(key, AES.MODE_ECB, iv)
     return cipher.decrypt(buff)
 
-def cbc_decrypt(key, buff, iv):
-    result = bytearray();
-    number_of_chunks = int(math.ceil(len(buff) / AES.block_size))
+def cbc_decrypt(key, encoded, iv):
+    plaintext = bytearray();
+    number_of_chunks = int(math.ceil(len(encoded) / AES.block_size))
 
     for i in range(0, number_of_chunks):
-        chunk = buff[i * AES.block_size:(i + 1) * AES.block_size]
+        chunk = encoded[i * AES.block_size:(i + 1) * AES.block_size]
 
         # Decrypt the chunk and XOR it against the IV/encrypted chunk from last round
         decoded = xor(ecb_decrypt(key, chunk, iv), iv)
 
-        result = result + decoded
+        plaintext = plaintext + decoded
 
         # Use the still encrypted chunk as the IV for the next round
         iv = chunk
 
-    return unpad(result)
+    return unpad(plaintext)
 
-def cbc_encrypt(key, buff, iv):
-    result = bytearray();
+def cbc_encrypt(key, plaintext, iv):
+    decoded = bytearray();
 
     # Must pad input buffer to a multiple of AES.block_size first
-    buff = pad(buff, len(buff) +(AES.block_size - (len(buff) % AES.block_size)))
+    plaintext = pad(plaintext, len(plaintext) +(AES.block_size - (len(plaintext) % AES.block_size)))
 
-    number_of_chunks = int(math.ceil(len(buff) / AES.block_size))
+    number_of_chunks = int(math.ceil(len(plaintext) / AES.block_size))
 
     for i in range(0, number_of_chunks):
-        chunk = buff[i * AES.block_size:(i + 1) * AES.block_size]
+        chunk = plaintext[i * AES.block_size:(i + 1) * AES.block_size]
 
         # XOR iv and chunk and encrypt
-        encoded = ecb_encrypt(key, bytes(xor(chunk, iv)), iv)
+        cipher = ecb_encrypt(key, bytes(xor(chunk, iv)), iv)
 
-        result = result + encoded
+        decoded = decoded + cipher
 
         # Use the encoded chunk as IV for next round
-        iv = encoded
+        iv = cipher
 
-    return result
+    return decoded
