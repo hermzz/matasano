@@ -123,7 +123,8 @@ def unpad(text):
 from Crypto.Cipher import AES
 def ecb_encrypt(key, buff, iv):
     cipher = AES.new(key, AES.MODE_ECB, iv)
-    return cipher.encrypt(buff)
+    buff = pad(bytearray(buff), len(buff) +(AES.block_size - (len(buff) % AES.block_size)))
+    return cipher.encrypt(bytes(buff))
 
 def ecb_decrypt(key, buff, iv):
     cipher = AES.new(key, AES.MODE_ECB, iv)
