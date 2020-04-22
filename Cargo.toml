@@ -1,0 +1,9 @@
+[package]
+name = "matasano"
+version = "0.1.0"
+authors = ["Hermann Käser <hermann.kaser@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+base64 = "0.12"
+hex = "0.4.2"
