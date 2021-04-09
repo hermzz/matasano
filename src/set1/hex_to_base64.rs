@@ -1,7 +1,7 @@
 use crate::common::base64;
 use crate::common::challenge;
 
-pub static info: challenge::Info = challenge::Info {
+pub static INFO: challenge::INFO = challenge::INFO {
     no:         1,
     title:      "Convert hex to base64",
     help:       "",

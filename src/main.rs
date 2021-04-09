@@ -21,7 +21,7 @@ fn main() {
 }
 
 fn execute_challenge(problem_no_str: &str) -> i32 {
-    let mut all_challenges =    set1::challenges.iter();
+    let mut all_challenges =    set1::CHALLENGES.iter();
 
     let problem_no = match problem_no_str.parse::<u32>() {
             Ok(v)  => v,
@@ -38,12 +38,12 @@ fn execute_challenge(problem_no_str: &str) -> i32 {
 
 
 fn print_challenge_list() -> i32 {
-    print_set(&set1::challenges, 1);
+    print_set(&set1::CHALLENGES, 1);
     0
 }
 
 
-fn print_set(set: &[&challenge::Info], no: u32) {
+fn print_set(set: &[&challenge::INFO], no: u32) {
     println!("Set-{}", no);
     for ch in set {
         println!("{:02}. {}", ch.no, ch.title);
