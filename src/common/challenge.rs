@@ -1,6 +1,6 @@
 use crate::common::err;
 
-pub struct Info {
+pub struct INFO {
     pub no:         u32,
     pub title:      &'static str,
     pub help:       &'static str,
