@@ -15,8 +15,10 @@ pub fn interactive() -> i32 {
     };
 
     match xor::find_best_xor_match(&input) {
-        Some(best_match) => println!("Best match was {:?}", best_match),
-        None => println!("Nothing found")
+        Some(result) => {
+            println!("Best match was {:?} with score {:?}", result.result, result.score);
+        },
+        None => println!("No match found")
     }
 
     exit_ok!()
