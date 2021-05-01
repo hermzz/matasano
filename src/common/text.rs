@@ -1,21 +1,9 @@
 use std::collections::HashMap;
 use std::char;
 use std::fmt;
+use crate::common::bytes;
 
-pub fn xor(input: &Vec<u8>, xor: &Vec<u8>) -> Vec<u8> {
-    let mut result: Vec<u8> = Vec::new();
-
-    let mut pos = 0;
-    while pos < input.len() {
-        result.push(input[pos] ^ xor[pos % xor.len()]);
-
-        pos += 1;
-    }
-
-    result
-}
-
-pub fn character_count(input: &Vec<u8>) -> HashMap<u8, i32> {
+pub fn character_count(input: &Vec<u8>) -> HashMap<u8, u32> {
     let mut counter = HashMap::new();
 
     for chr in 'a'..'z' {
@@ -69,7 +57,7 @@ fn char_score(chr: char) -> f32 {
     }
 }
 
-fn relative_score(input: &Vec<u8>, chr: u8, frequency: i32) -> f32 {
+fn relative_score(input: &Vec<u8>, chr: u8, frequency: u32) -> f32 {
     let score = frequency as f32 / input.len() as f32 * 100.0;
     (score - char_score(chr as char)).abs()
 }
@@ -120,7 +108,7 @@ pub fn find_best_xor_match(input: &Vec<u8>) -> Option<Match> {
     let mut best_match = Match { result: String::from(""), score: 0.0 };
 
     for index in 0u8..=255 {
-        let result = xor(input, &vec![index]);
+        let result = bytes::xor(input, &vec![index]);
         if range_check(&result) {
             let new_score = frequency_check(&result);
             let readable_result: String = result.iter().map(|b| *b as char).collect::<Vec<_>>().into_iter().collect();
@@ -135,4 +123,17 @@ pub fn find_best_xor_match(input: &Vec<u8>) -> Option<Match> {
     } else {
         None
     }
+}
+
+pub fn hamming(text_a: Vec<u8>, text_b: Vec<u8>) -> u32 {
+    let diff = text_a.iter().zip(text_b.iter()).map(|(a, b)| a ^ b ).collect::<Vec<u8>>();
+    diff.into_iter().map(|a| a.count_ones()).sum()
+}
+
+#[test]
+pub fn check_hamming() {
+    assert_eq!(37, hamming(
+        String::from("this is a test").as_bytes().to_vec(),
+        String::from("wokka wokka!!!").as_bytes().to_vec()
+    ));
 }
