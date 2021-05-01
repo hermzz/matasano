@@ -1,15 +1,17 @@
-pub mod hex_to_base64;
-pub mod fixed_xor;
-pub mod single_byte_xor;
-pub mod detect_single_xor;
-pub mod repeating_key_xor;
+pub mod problem01;
+pub mod problem02;
+pub mod problem03;
+pub mod problem04;
+pub mod problem05;
+pub mod problem06;
 
 use crate::common::challenge;
 
-pub static CHALLENGES: [&'static challenge::INFO; 5] = [
-    &hex_to_base64::INFO,
-    &fixed_xor::INFO,
-    &single_byte_xor::INFO,
-    &detect_single_xor::INFO,
-    &repeating_key_xor::INFO
+pub static CHALLENGES: [&'static challenge::INFO; 6] = [
+    &problem01::INFO,
+    &problem02::INFO,
+    &problem03::INFO,
+    &problem04::INFO,
+    &problem05::INFO,
+    &problem06::INFO
 ];
